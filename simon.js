@@ -1,5 +1,7 @@
 $( document ).ready(function () {
 
+
+// GAME LOGIC
   var pattern = [];
 
   var generatePattern = function (arr) {
@@ -14,6 +16,7 @@ $( document ).ready(function () {
     var idx = 0;
     var showId = setInterval(function () {
       console.log(pattern[idx]);
+      highlightElement(pattern[idx], removeHighlight)
       idx += 1;
       if (idx > pattern.length-1) {
         clearInterval(showId);
@@ -69,6 +72,20 @@ $( document ).ready(function () {
   }
 
 });
+////////////////////////////////////////////////
+
+// DOM METHODS
+
+function highlightElement (id, cb) {
+  $("#" + id).addClass("highlight")
+  setTimeout(function () {
+    cb(id)
+  }, 500);
+}
+
+function removeHighlight(id) {
+  $("#" + id).removeClass("highlight")
+}
 
 
 

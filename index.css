@@ -10,6 +10,8 @@ html, body, div {
 
 div {
   height: 100px;
+  transition: opacity .5s;
+  border: 2px solid black;
 }
 
 .green {
@@ -21,9 +23,13 @@ div {
 }
 
 .yellow {
-  background: yellow;
+  background: purple;
 }
 
 .blue {
   background: blue;
+}
+
+.highlight {
+   opacity: .2;
 }
