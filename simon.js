@@ -1,5 +1,8 @@
 $( document ).ready(function () {
 
+  var audios = ['https://s3.amazonaws.com/freecodecamp/simonSound1.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
+                'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'];
+
 
 // GAME LOGIC
   var pattern = [];
@@ -16,7 +19,11 @@ $( document ).ready(function () {
     var idx = 0;
     var showId = setInterval(function () {
       console.log(pattern[idx]);
-      highlightElement(pattern[idx], removeHighlight)
+      var id = pattern[idx];
+      highlightElement(id, removeHighlight)
+      var audio = new Audio(audios[id - 1]);
+      audio.play();
+
       idx += 1;
       if (idx > pattern.length-1) {
         clearInterval(showId);
@@ -78,9 +85,12 @@ $( document ).ready(function () {
 
 function highlightElement (id, cb) {
   $("#" + id).addClass("highlight")
+  // var audio = new Audio(audios[(id - 1)]);
+  // audio.play();
   setTimeout(function () {
     cb(id)
   }, 500);
+
 }
 
 function removeHighlight(id) {
