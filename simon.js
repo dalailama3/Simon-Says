@@ -1,6 +1,6 @@
 $( document ).ready(function () {
 
-  var pattern = [3,1,2];
+  var pattern = [];
 
   var generatePattern = function (arr) {
     var num = Math.floor(Math.random() * 4) + 1;
@@ -10,17 +10,19 @@ $( document ).ready(function () {
   generatePattern(pattern)
 
 
-  function run () {
+  function showPattern () {
     var idx = 0;
     var showId = setInterval(function () {
       console.log(pattern[idx]);
       idx += 1;
       if (idx > pattern.length-1) {
         clearInterval(showId);
+        checkUserInput(userInput, pattern, showPattern);
       }
     }, 1000);
+
   }
-  run();
+  showPattern();
 
   var userInput = [];
   $("div").on("click",function (e) {
@@ -30,14 +32,18 @@ $( document ).ready(function () {
   });
 
 
-  function checkUserInput (input, pattern) {
+  function checkUserInput (input, pattern, cb) {
     var idx = 0;
+    var wait = 0;
     var checkId = setInterval(function () {
       if (input.length > 0) {
         if (JSON.stringify(input) === JSON.stringify(pattern)) {
           console.log(input);
           clearInterval(checkId);
           console.log("correct");
+          userInput = [];
+          generatePattern(pattern);
+          cb();
         }
         else if (pattern[idx] === input[idx]) {
           idx += 1;
@@ -47,32 +53,20 @@ $( document ).ready(function () {
             console.log("mistake");
         }
       } else {
-        console.log(userInput);
+        if (wait < pattern.length + 1) {
+          console.log(userInput);
+          wait += 2;
+        } else {
+          clearInterval(checkId);
+          console.log("you lose");
+
+        }
+
       }
 
-    }, 1000);
+    }, 2000);
+
   }
-
-  checkUserInput(userInput, pattern);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 });
 
