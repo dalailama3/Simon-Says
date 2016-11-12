@@ -1,0 +1,29 @@
+html, body, div {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font:inherit;
+  text-decoration: inherit;
+  font-family: inherit;
+}
+
+div {
+  height: 100px;
+}
+
+.green {
+  background: green;
+}
+
+.red {
+  background: red;
+}
+
+.yellow {
+  background: yellow;
+}
+
+.blue {
+  background: blue;
+}
