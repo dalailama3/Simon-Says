@@ -4,18 +4,20 @@ $( document ).ready(function () {
                 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'];
 
 
+
 // GAME LOGIC
   var pattern = [];
 
   var generatePattern = function (arr) {
     var num = Math.floor(Math.random() * 4) + 1;
     arr.push(num);
-    // return arr;
   }
   generatePattern(pattern)
 
 
   function showPattern () {
+    console.log(pattern.length)
+
     var idx = 0;
     var showId = setInterval(function () {
       console.log(pattern[idx]);
@@ -38,6 +40,9 @@ $( document ).ready(function () {
   $("div").on("click",function (e) {
     var $clicked = $(this);
     var num = parseInt($clicked.text());
+    highlightElement(num, removeHighlight)
+    var audio = new Audio(audios[num - 1]);
+    audio.play();
     userInput.push(num);
   });
 
@@ -48,12 +53,16 @@ $( document ).ready(function () {
     var checkId = setInterval(function () {
       if (input.length > 0) {
         if (JSON.stringify(input) === JSON.stringify(pattern)) {
+
           console.log(input);
           clearInterval(checkId);
           console.log("correct");
           userInput = [];
-          generatePattern(pattern);
-          cb();
+          if (pattern.length === 2) { victory(); } else {
+            generatePattern(pattern);
+            cb();
+          }
+
         }
         else if (pattern[idx] === input[idx]) {
           idx += 1;
@@ -78,6 +87,17 @@ $( document ).ready(function () {
 
   }
 
+  function victory() {
+    let audio = new Audio('./audio/victory.mp3')
+    audio.play();
+    pattern = []
+    setTimeout(()=> {
+      generatePattern(pattern)
+      showPattern()
+    }, 14 * 1000)
+
+  }
+
 });
 ////////////////////////////////////////////////
 
@@ -85,8 +105,6 @@ $( document ).ready(function () {
 
 function highlightElement (id, cb) {
   $("#" + id).addClass("highlight")
-  // var audio = new Audio(audios[(id - 1)]);
-  // audio.play();
   setTimeout(function () {
     cb(id)
   }, 500);
