@@ -4,6 +4,8 @@ $( document ).ready(function () {
                 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'];
 
   var gameOn = false
+  var gameInProgess = false
+
   $(".switch .on,.off").on('click', function () {
     var $clicked = $(this)
 
@@ -12,14 +14,10 @@ $( document ).ready(function () {
     $clicked.toggleClass('flick')
     $sibling.toggleClass('flick')
 
-    // if ($(".on").attr('class') === 'on flick') {
-    //   on = true;
-    // }
-    if ($(".on").attr('class') === 'on flick') {
-      gameOn = true
-    } else {
-      gameOn = false
-    }
+    $(".count-display span").toggleClass("hidden")
+
+    gameOn = ($(".on").attr('class') === 'on flick') ? true : false
+
   });
 
 // GAME LOGIC
@@ -43,12 +41,15 @@ $( document ).ready(function () {
   });
 
   var start = $('.start').on("click", ()=> {
-    generatePattern(pattern)
-    showPattern(pattern);
+    if (gameOn && !gameInProgess) {
+      gameInProgess = true;
+      generatePattern(pattern)
+      showPattern(pattern);
+    } else {
+      return
+    }
+
   });
-
-
-
 
 
   var padded = (num)=> {

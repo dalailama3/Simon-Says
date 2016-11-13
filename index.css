@@ -7,22 +7,14 @@ html, body, div, figure {
   text-decoration: inherit;
   font-family: inherit;
 }
-/*
-.green {
-  background: green;
+
+body {
+  font-family: sans-serif;
 }
 
-.red {
-  background: red;
+.hidden {
+  display: none;
 }
-
-.purple {
-  background: purple;
-}
-
-.blue {
-  background: blue;
-}*/
 
 .highlight {
    opacity: .5;
@@ -54,6 +46,7 @@ figure {
 
 .panel-title {
   text-align: center;
+  font-weight: bold;
 }
 
 .panel {
