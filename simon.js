@@ -20,6 +20,15 @@ $( document ).ready(function () {
 
   });
 
+  function reset() {
+    $(".count-display").html('<span class="hidden"></span><span class="hidden"></span><h6>COUNT</h6>')
+    strictMode = false
+    gameInProgess = false
+    pattern = []
+    userInput = []
+
+  }
+
 // GAME LOGIC
   var strictMode = false;
   var pattern = [];
@@ -65,6 +74,7 @@ $( document ).ready(function () {
     var showId = setInterval(function () {
       if (!gameOn) {
         clearInterval(showId);
+        reset()
         return
       }
       else {
@@ -90,6 +100,7 @@ $( document ).ready(function () {
     var checkId = setInterval(function () {
       if (!gameOn) {
         clearInterval(checkId)
+        reset()
         return
       }
       else {
@@ -123,7 +134,7 @@ $( document ).ready(function () {
           }
         }
       }
-      }, 1000)  
+      }, 1000)
   }
 
   function handleMistake() {
