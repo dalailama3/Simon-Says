@@ -5,6 +5,8 @@ $( document ).ready(function () {
 
   var gameOn = false
   var gameInProgess = false
+  var strictMode = false;
+  var pattern = [];
 
   $(".switch .on,.off").on('click', function () {
     var $clicked = $(this)
@@ -18,20 +20,35 @@ $( document ).ready(function () {
 
     gameOn = ($(".on").attr('class') === 'on flick') ? true : false
 
+    if ($(".off").attr("class") === 'off flick') {
+      $(".strictLight").removeClass('redlight')
+    }
+
   });
+
+  $(".strict").on("click", function () {
+    if (gameOn) {
+      var light = $(".strictLight")
+      light.toggleClass("redlight")
+      strictMode = strictMode === true ? false : true
+    }
+    else {
+      return
+    }
+
+
+  })
 
   function reset() {
     $(".count-display").html('<span class="hidden"></span><span class="hidden"></span><h6>COUNT</h6>')
+    $(".strictLight").toggleClass('redlight')
     strictMode = false
     gameInProgess = false
     pattern = []
     userInput = []
-
   }
 
 // GAME LOGIC
-  var strictMode = false;
-  var pattern = [];
 
   var generatePattern = function (arr) {
     var num = Math.floor(Math.random() * 4) + 1;
@@ -52,6 +69,7 @@ $( document ).ready(function () {
   var start = $('.start').on("click", ()=> {
     if (gameOn && !gameInProgess) {
       gameInProgess = true;
+      $(this).toggleClass()
       generatePattern(pattern)
       showPattern(pattern);
     } else {
@@ -130,7 +148,7 @@ $( document ).ready(function () {
             wait += 2;
           } else {
             clearInterval(checkId);
-            console.log("you lose");
+            handleMistake()
           }
         }
       }
