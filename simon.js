@@ -8,9 +8,21 @@ $( document ).ready(function () {
 // GAME LOGIC
   var strictMode = false;
   var pattern = [];
+
+  var generatePattern = function (arr) {
+    var num = Math.floor(Math.random() * 4) + 1;
+    arr.push(num);
+  }
+
+  var start = $('.start').on("click", ()=> {
+    generatePattern(pattern)
+    showPattern(pattern);
+  });
+
+
   var userInput = [];
 
-  $("div").on("click",function (e) {
+  $(".sect").on("click", function (e) {
     var $clicked = $(this);
     var num = parseInt($clicked.text());
     highlightElement(num, removeHighlight)
@@ -19,16 +31,14 @@ $( document ).ready(function () {
     userInput.push(num);
   });
 
-  var generatePattern = function (arr) {
-    var num = Math.floor(Math.random() * 4) + 1;
-    arr.push(num);
+  var padded = (num)=> {
+    num < 10 ? num = `0${num}` : num = num
+    return num
   }
-  generatePattern(pattern)
 
 
   function showPattern () {
-    console.log(pattern.length)
-
+    $('.count-display').html(`<div class='insert'>${padded(pattern.length)}</div><h6>COUNT</h6>`)
     var idx = 0;
     var showId = setInterval(function () {
       console.log(pattern[idx]);
@@ -45,7 +55,7 @@ $( document ).ready(function () {
     }, 1000);
 
   }
-  showPattern();
+
 
   function checkUserInput (input, pattern, cb) {
     var idx = 0;
@@ -83,7 +93,7 @@ $( document ).ready(function () {
 
       }
 
-    }, 2000);
+    }, 1000);
 
   }
 
@@ -122,7 +132,6 @@ function highlightElement (id, cb) {
   setTimeout(function () {
     cb(id)
   }, 500);
-
 }
 
 function removeHighlight(id) {
