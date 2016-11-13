@@ -61,20 +61,26 @@ $( document ).ready(function () {
   function showPattern () {
     $('.count-display').html(`<div class='insert'>${padded(pattern.length)}</div><h6>COUNT</h6>`)
     var idx = 0;
-    var showId = setInterval(function () {
-      console.log(pattern[idx]);
-      var id = pattern[idx];
-      highlightElement(id, removeHighlight)
-      var audio = new Audio(audios[id - 1]);
-      audio.play();
 
-      idx += 1;
-      if (idx > pattern.length-1) {
+    var showId = setInterval(function () {
+      if (!gameOn) {
         clearInterval(showId);
-        checkUserInput(userInput, pattern, showPattern);
+        return
+      }
+      else {
+        console.log(pattern[idx]);
+        var id = pattern[idx];
+        highlightElement(id, removeHighlight)
+        var audio = new Audio(audios[id - 1]);
+        audio.play();
+        idx += 1;
+
+        if (idx > pattern.length-1) {
+          clearInterval(showId);
+          checkUserInput(userInput, pattern, showPattern);
+        }
       }
     }, 1000);
-
   }
 
 
@@ -82,40 +88,42 @@ $( document ).ready(function () {
     var idx = 0;
     var wait = 0;
     var checkId = setInterval(function () {
-      if (input.length > 0) {
-        if (JSON.stringify(input) === JSON.stringify(pattern)) {
-
-          console.log(input);
-          clearInterval(checkId);
-          console.log("correct");
-          userInput = [];
-          if (pattern.length === 20) { victory(); } else {
-            generatePattern(pattern);
-            cb();
-          }
-
-        }
-        else if (pattern[idx] === input[idx]) {
-          idx += 1;
-          console.log(input)
-        } else {
-            clearInterval(checkId);
-            handleMistake();
-        }
-      } else {
-        if (wait < pattern.length + 1) {
-          console.log(userInput);
-          wait += 2;
-        } else {
-          clearInterval(checkId);
-          console.log("you lose");
-
-        }
-
+      if (!gameOn) {
+        clearInterval(checkId)
+        return
       }
+      else {
+        if (input.length > 0) {
+          if (JSON.stringify(input) === JSON.stringify(pattern)) {
 
-    }, 1000);
+            console.log(input);
+            clearInterval(checkId);
+            console.log("correct");
+            userInput = [];
+            if (pattern.length === 20) { victory(); } else {
+              generatePattern(pattern);
+              cb();
+            }
 
+          }
+          else if (pattern[idx] === input[idx]) {
+            idx += 1;
+            console.log(input)
+          } else {
+              clearInterval(checkId);
+              handleMistake();
+          }
+        } else {
+          if (wait < pattern.length + 1) {
+            console.log(userInput);
+            wait += 2;
+          } else {
+            clearInterval(checkId);
+            console.log("you lose");
+          }
+        }
+      }
+      }, 1000)  
   }
 
   function handleMistake() {
