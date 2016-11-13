@@ -3,14 +3,23 @@ $( document ).ready(function () {
   var audios = ['https://s3.amazonaws.com/freecodecamp/simonSound1.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
                 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'];
 
+  var gameOn = false
   $(".switch .on,.off").on('click', function () {
-    console.log(this)
     var $clicked = $(this)
+
     var $sibling = $($clicked.siblings("div")[0])
 
     $clicked.toggleClass('flick')
     $sibling.toggleClass('flick')
 
+    // if ($(".on").attr('class') === 'on flick') {
+    //   on = true;
+    // }
+    if ($(".on").attr('class') === 'on flick') {
+      gameOn = true
+    } else {
+      gameOn = false
+    }
   });
 
 // GAME LOGIC
