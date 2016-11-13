@@ -133,9 +133,39 @@ h6 {
 
 
 .switch {
+  position: relative;
   border: 1px solid red;
-
+  top: 40px;
+  width: 40px;
+  height: 15px;
+  left: 78px;
+  border-radius: 2px;
 }
+
+.off, .on {
+  width: 20px;
+  height: 15px;
+}
+
+.off {
+  float: left;
+}
+
+.on {
+    float: right;
+}
+
+.flick {
+  background: blue;
+}
+
+/*.switch:before {
+  content: "OFF";
+}
+
+.switch:after {
+  content: "ON";
+}*/
 
 .panel-names {
   display: flex;

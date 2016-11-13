@@ -3,7 +3,14 @@ $( document ).ready(function () {
   var audios = ['https://s3.amazonaws.com/freecodecamp/simonSound1.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
                 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3', 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'];
 
+  $(".switch .on,.off").on('click', function () {
+    console.log(this)
+    var $clicked = $(this)
+    var $sibling = $($clicked.siblings()[0])
+    $clicked.toggleClass('flick')
+    $sibling.toggleClass('flick')
 
+  });
 
 // GAME LOGIC
   var strictMode = false;
@@ -13,12 +20,6 @@ $( document ).ready(function () {
     var num = Math.floor(Math.random() * 4) + 1;
     arr.push(num);
   }
-
-  var start = $('.start').on("click", ()=> {
-    generatePattern(pattern)
-    showPattern(pattern);
-  });
-
 
   var userInput = [];
 
@@ -30,6 +31,15 @@ $( document ).ready(function () {
     audio.play();
     userInput.push(num);
   });
+
+  var start = $('.start').on("click", ()=> {
+    generatePattern(pattern)
+    showPattern(pattern);
+  });
+
+
+
+
 
   var padded = (num)=> {
     num < 10 ? num = `0${num}` : num = num
