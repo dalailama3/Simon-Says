@@ -6,7 +6,8 @@ $( document ).ready(function () {
   $(".switch .on,.off").on('click', function () {
     console.log(this)
     var $clicked = $(this)
-    var $sibling = $($clicked.siblings()[0])
+    var $sibling = $($clicked.siblings("div")[0])
+
     $clicked.toggleClass('flick')
     $sibling.toggleClass('flick')
 
