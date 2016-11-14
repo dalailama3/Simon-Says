@@ -63,15 +63,6 @@ $( document ).ready(function () {
 
   var userInput = [];
 
-  $(".sect").on("click", function (e) {
-    var $clicked = $(this);
-    var num = parseInt($clicked.text());
-    highlightElement(num, removeHighlight)
-    var audio = new Audio(audios[num - 1]);
-    audio.play();
-    userInput.push(num);
-  });
-
   var start = $('.start').on("click", ()=> {
     if (gameOn && !gameInProgess) {
       gameInProgess = true;
@@ -92,8 +83,8 @@ $( document ).ready(function () {
 
   function showPattern () {
     var patternLen = pattern.length
-    if ([5,9,13].indexOf(patternLen) !== -1) { intervalSecs -= 100; highlightSecs -= 100 }
-    console.log(intervalSecs)
+    $(".sect").unbind("click")
+    if ([5,9,13].indexOf(patternLen) !== -1) { intervalSecs -= 100; highlightSecs -= 25; }
     $('.count-display').html(`<div class='insert'>${padded(patternLen)}</div><h6>COUNT</h6>`)
     var idx = 0;
 
@@ -121,6 +112,17 @@ $( document ).ready(function () {
 
 
   function checkUserInput (input, pattern, cb) {
+
+    //attach handlers on sections
+    $(".sect").on("click", function (e) {
+      var $clicked = $(this);
+      var num = parseInt($clicked.text());
+      highlightElement(num, removeHighlight)
+      var audio = new Audio(audios[num - 1]);
+      audio.play();
+      userInput.push(num);
+    });
+
     var idx = 0;
     var wait = 0;
     var checkId = setInterval(function () {
