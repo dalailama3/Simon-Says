@@ -7,6 +7,8 @@ $( document ).ready(function () {
   var gameInProgess = false
   var strictMode = false;
   var pattern = [];
+  var intervalSecs = 1000;
+  var highlightSecs = 500;
 
   $(".switch .on,.off").on('click', function () {
     var $clicked = $(this)
@@ -22,6 +24,8 @@ $( document ).ready(function () {
 
     if ($(".off").attr("class") === 'off flick') {
       $(".strictLight").removeClass('redlight')
+      intervalSecs = 1000;
+      highlightSecs = 500;
     }
 
   });
@@ -41,11 +45,13 @@ $( document ).ready(function () {
 
   function reset() {
     $(".count-display").html('<span class="hidden"></span><span class="hidden"></span><h6>COUNT</h6>')
-    $(".strictLight").toggleClass('redlight')
+    $(".strictLight").removeClass('redlight')
     strictMode = false
     gameInProgess = false
     pattern = []
     userInput = []
+    intervalSecs = 1000
+    highlightSecs = 500
   }
 
 // GAME LOGIC
@@ -84,9 +90,11 @@ $( document ).ready(function () {
     return num
   }
 
-
   function showPattern () {
-    $('.count-display').html(`<div class='insert'>${padded(pattern.length)}</div><h6>COUNT</h6>`)
+    var patternLen = pattern.length
+    if ([5,9,13].indexOf(patternLen) !== -1) { intervalSecs -= 100; highlightSecs -= 100 }
+    console.log(intervalSecs)
+    $('.count-display').html(`<div class='insert'>${padded(patternLen)}</div><h6>COUNT</h6>`)
     var idx = 0;
 
     var showId = setInterval(function () {
@@ -98,7 +106,7 @@ $( document ).ready(function () {
       else {
         console.log(pattern[idx]);
         var id = pattern[idx];
-        highlightElement(id, removeHighlight)
+        highlightElement(id, removeHighlight, highlightSecs)
         var audio = new Audio(audios[id - 1]);
         audio.play();
         idx += 1;
@@ -108,7 +116,7 @@ $( document ).ready(function () {
           checkUserInput(userInput, pattern, showPattern);
         }
       }
-    }, 1000);
+    }, intervalSecs);
   }
 
 
@@ -152,7 +160,7 @@ $( document ).ready(function () {
           }
         }
       }
-      }, 1000)
+    }, 1200)
   }
 
   function handleMistake() {
@@ -185,11 +193,11 @@ $( document ).ready(function () {
 
 // DOM METHODS
 
-function highlightElement (id, cb) {
+function highlightElement (id, cb, duration = 500) {
   $("#" + id).addClass("highlight")
   setTimeout(function () {
     cb(id)
-  }, 500);
+  }, duration);
 }
 
 function removeHighlight(id) {
